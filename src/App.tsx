@@ -7,6 +7,7 @@ import surya from "./assets/surya.png";
 import vishnu from "./assets/vishnu.png";
 import shiva from "./assets/shivaa.png";
 import "./App.css";
+import Draggable from "react-draggable";
 
 function App() {
   const [currentData, setCurrentData] = useState({
@@ -28,22 +29,34 @@ function App() {
     const dayOfWeek = days[new Date().getDay()];
     setCurrentData(dayOfWeek);
     document.title = currentData.title;
-  }, [currentData]);
+  }, [currentData.title, currentData.image]);
 
-  const leftButtons = [
+  const buttons = [
     { title: "ghanti" },
     { title: "parsad" },
     { title: "agarbatti" },
+    { title: "phull" },
+    { title: "diya" },
+    { title: "tilak" },
   ];
 
   const handleClick = () => {
     const audio = new Audio();
     audio.play();
   };
+
   return (
     <section className="font-sans h-screen  container  m-auto flex flex-col lg:flex-row justify-center ">
       <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
-        {leftButtons.map((i, id) => {
+        <Draggable
+          cancel="true"
+          position={{ x: 0, y: 0 }}
+          defaultPosition={{ x: 0, y: 0 }}
+          onStop={(e, d) => console.log("d", d)}
+        >
+          <div>Drag me!</div>
+        </Draggable>
+        {buttons.slice(0, 3).map((i, id) => {
           return (
             <>
               <div
@@ -61,12 +74,12 @@ function App() {
       </div>
       <div className="order-1 lg:order-2 w-full lg:w-1/2 max-w-sm lg:max-w-lg md:max-w-md mx-auto mb-6 lg:mb-0">
         <img className="h-90" loading="lazy" src={currentData.image} alt="" />
-        {/* <button className="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+        <button className="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
           Start
-        </button> */}
+        </button>
       </div>
       <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
-        {leftButtons.map((i, id) => {
+        {buttons.slice(3).map((i, id) => {
           return (
             <>
               <div
