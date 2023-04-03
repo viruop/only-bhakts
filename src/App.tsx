@@ -61,9 +61,9 @@ function App() {
       </div>
       <div className="order-1 lg:order-2 w-full lg:w-1/2 max-w-sm lg:max-w-lg md:max-w-md mx-auto mb-6 lg:mb-0">
         <img className="h-90" loading="lazy" src={currentData.image} alt="" />
-        <button className="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+        {/* <button className="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
           Start
-        </button>
+        </button> */}
       </div>
       <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
         {leftButtons.map((i, id) => {
