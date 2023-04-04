@@ -45,6 +45,17 @@ function App() {
     const audio = new Audio();
     audio.play();
   };
+  const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
+
+  const generateDrops = () => {
+    const drop = document.createElement("div");
+    drop.classList.add("drop");
+    drop.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    drop.style.left = Math.random() * 100 + "vw";
+    drop.style.animationDuration = Math.random() * 2 + 1 + "s";
+    const abcDiv: any = document.querySelector(".abc");
+    abcDiv.appendChild(drop);
+  };
 
   return (
     <section className="font-sans h-screen  container  m-auto flex flex-col lg:flex-row justify-center ">
@@ -65,13 +76,15 @@ function App() {
           );
         })}
       </div>
-      <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12">
-        <img
-          className="mt-20 shadow-2xl"
-          loading="lazy"
-          src={currentData.image}
-          alt=""
-        />
+      <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12 ">
+        <div className="abc">
+          <img
+            className="mt-20 shadow-2xl"
+            loading="lazy"
+            src={currentData.image}
+            alt=""
+          />
+        </div>
         <Draggable
           position={{ x: 0, y: 0 }}
           defaultPosition={{ x: 0, y: 0 }}
@@ -88,7 +101,13 @@ function App() {
           </div>
         </Draggable>
 
-        <button className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+        <button
+          onClick={() => {
+            const interval = setInterval(generateDrops, 100);
+            setTimeout(() => clearInterval(interval), 2000);
+          }}
+          className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
           Start
         </button>
       </div>
