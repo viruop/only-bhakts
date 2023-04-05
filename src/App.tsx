@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import hanuman from "./assets/hanuman.png";
 import kali from "./assets/kali.png";
 import krishna from "./assets/krishna.png";
@@ -9,6 +9,14 @@ import shiva from "./assets/shivaa.png";
 import arati from "./assets/arati.png";
 import "./App.css";
 import Draggable from "react-draggable";
+import krishnaAudio from "./assets/audio/krishna.mp3";
+import jaikali from "./assets/audio/jaimaakali.mp3";
+import hanumanChalisa from "./assets/audio/hanumanchalisa.mp3";
+import namonamo from "./assets/audio/namonamo.mp3";
+import narayan from "./assets/audio/narayan.mp3";
+import suryadev from "./assets/audio/suryadev.mp3";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [currentData, setCurrentData] = useState({
@@ -16,35 +24,67 @@ function App() {
     image: "",
     audio: "",
   });
-
   useEffect(() => {
     const days = [
-      { title: "Sunday", image: surya, audio: "" },
-      { title: "Monday", image: shiva, audio: "" },
-      { title: "Tuesday", image: hanuman, audio: "" },
-      { title: "Wednesday", image: krishna, audio: "" },
-      { title: "Thursday", image: vishnu, audio: "" },
-      { title: "Friday", image: kali, audio: "" },
-      { title: "Sunny", image: shani, audio: "" },
+      { title: "Sunday", image: surya, audio: suryadev },
+      { title: "Monday", image: shiva, audio: namonamo },
+      { title: "Tuesday", image: hanuman, audio: hanumanChalisa },
+      { title: "Wednesday", image: krishna, audio: krishnaAudio },
+      { title: "Thursday", image: vishnu, audio: narayan },
+      { title: "Friday", image: kali, audio: jaikali },
+      { title: "Saturday", image: shani, audio: hanumanChalisa },
     ];
-    const dayOfWeek = days[new Date().getDay() + 0];
+    const dayOfWeek = days[new Date().getDay() + 2];
     setCurrentData(dayOfWeek);
     document.title = currentData.title;
-  }, [currentData.title, currentData.image]);
+  }, [currentData.title, currentData.image, currentData.audio]);
 
   const buttons = [
     { title: "ghanti" },
     { title: "parsad" },
-    { title: "agarbatti" },
-    { title: "phull" },
-    { title: "diya" },
-    { title: "tilak" },
+    // { title: "agarbatti" },
+    // { title: "phull" },
+    // { title: "diya" },
+    // { title: "tilak" },
   ];
-
-  const handleClick = () => {
-    const audio = new Audio();
-    audio.play();
+  let audio: any;
+  let currentTime = 0;
+  let id = "abc";
+  const togglePlay = async () => {
+    if (audio && !audio.paused) {
+      currentTime = audio.currentTime;
+      audio.pause();
+      toast.success("paused ...", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 2000,
+        toastId: id,
+        // isLoading: true,
+      });
+    } else {
+      audio = new Audio(currentData.audio);
+      audio.currentTime = currentTime;
+      await audio.play();
+      // toast.success("Message send successfully !", {
+      //   position: toast.POSITION.TOP_CENTER,
+      //   autoClose: 3000,
+      // });
+      toast.success("playing ...", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 2000,
+        toastId: id,
+        // isLoading: true,
+      });
+    }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.code === "Space") {
+      if (audio && !audio.paused) {
+        audio.pause();
+      }
+    }
+  };
+
   const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
 
   const generateDrops = () => {
@@ -60,21 +100,25 @@ function App() {
   return (
     <section className="font-sans h-screen  container  m-auto flex flex-col lg:flex-row justify-center ">
       <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
-        {buttons.slice(0, 3).map((i, id) => {
+        {/* {buttons.map((i, id) => {
           return (
-            <>
-              <div
-                key={id}
-                className="w-12 h-12 rounded-full bg-gray-300 mb-2"
-              />
-              <h2 className="text-black mb-2 font-normal">{i.title}</h2>
-              <p className="text-gray-700 leading-normal mb-8">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </p>
-            </>
+            <> */}
+        <ToastContainer style={{ padding: "10px" }} />
+        <div
+          onClick={() => {
+            const interval = setInterval(generateDrops, 100);
+            setTimeout(() => clearInterval(interval), 2000);
+          }}
+          className="w-12 h-12 rounded-full bg-gray-300 mb-2"
+        />
+        <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
+        <p className="text-gray-700 leading-normal mb-8">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+        {/* </>
           );
-        })}
+        })} */}
       </div>
       <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12 ">
         <div className="abc">
@@ -101,18 +145,26 @@ function App() {
           </div>
         </Draggable>
 
-        <button
-          onClick={() => {
-            const interval = setInterval(generateDrops, 100);
-            setTimeout(() => clearInterval(interval), 2000);
-          }}
-          className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        <div
+          onClick={() => togglePlay()}
+          // key={id}
+          onKeyDown={(e) => handleKeyDown(e)}
+          className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg :hover cursor-pointer"
         >
-          Start
-        </button>
+          start
+        </div>
       </div>
       <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
-        {buttons.slice(3).map((i, id) => {
+        <div
+          // key={id}
+          className="w-12 h-12 rounded-full bg-gray-300 mb-2"
+        />
+        <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
+        <p className="text-gray-700 leading-normal mb-8">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+        {/* {buttons.slice(2).map((i, id) => {
           return (
             <>
               <div
@@ -126,7 +178,7 @@ function App() {
               </p>
             </>
           );
-        })}
+        })} */}
       </div>
     </section>
   );
