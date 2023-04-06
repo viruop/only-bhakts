@@ -34,7 +34,7 @@ function App() {
       { title: "Friday", image: kali, audio: jaikali },
       { title: "Saturday", image: shani, audio: hanumanChalisa },
     ];
-    const dayOfWeek = days[new Date().getDay() + 2];
+    const dayOfWeek = days[new Date().getDay() + 0];
     setCurrentData(dayOfWeek);
     document.title = currentData.title;
   }, [currentData.title, currentData.image, currentData.audio]);
@@ -98,89 +98,92 @@ function App() {
   };
 
   return (
-    <section className="font-sans h-screen  container  m-auto flex flex-col lg:flex-row justify-center ">
-      <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
-        {/* {buttons.map((i, id) => {
-          return (
-            <> */}
-        <ToastContainer style={{ padding: "10px" }} />
-        <div
-          onClick={() => {
-            const interval = setInterval(generateDrops, 100);
-            setTimeout(() => clearInterval(interval), 2000);
-          }}
-          className="w-12 h-12 rounded-full bg-gray-300 mb-2"
-        />
-        <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
-        <p className="text-gray-700 leading-normal mb-8">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p>
-        {/* </>
-          );
-        })} */}
-      </div>
-      <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12 ">
-        <div className="abc">
-          <img
-            className="mt-20 shadow-2xl"
-            loading="lazy"
-            src={currentData.image}
-            alt=""
+    <>
+      <div className="flex lg:hidden">under development</div>
+      <section className=" hidden lg:flex font-sans h-screen   container  m-auto  flex-col lg:flex-row justify-center ">
+        <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
+          {/* {buttons.map((i, id) => {
+      return (
+        <> */}
+          <ToastContainer style={{ padding: "10px" }} />
+          <div
+            onClick={() => {
+              const interval = setInterval(generateDrops, 100);
+              setTimeout(() => clearInterval(interval), 2000);
+            }}
+            className="w-12 h-12 rounded-full bg-gray-300 mb-2 hover:cursor-pointer"
           />
+          <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
+          <p className="text-gray-700 leading-normal mb-8">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry.
+          </p>
+          {/* </>
+      );
+    })} */}
         </div>
-        <Draggable
-          position={{ x: 0, y: 0 }}
-          defaultPosition={{ x: 0, y: 0 }}
-          onStop={(e, d) => console.log("d", d)}
-        >
-          <div className="mt-4">
+        <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12 ">
+          <div className="abc">
             <img
-              className="mx-auto no-user-drag cursor-grab hover:cursor-grabbing"
-              src={arati}
-              height={170}
-              width={170}
-              alt="arati"
+              className="mt-20 shadow-2xl"
+              loading="lazy"
+              // src={currentData.image}
+              alt=""
             />
           </div>
-        </Draggable>
-
-        <div
-          onClick={() => togglePlay()}
-          // key={id}
-          onKeyDown={(e) => handleKeyDown(e)}
-          className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg :hover cursor-pointer"
-        >
-          start
-        </div>
-      </div>
-      <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
-        <div
-          // key={id}
-          className="w-12 h-12 rounded-full bg-gray-300 mb-2"
-        />
-        <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
-        <p className="text-gray-700 leading-normal mb-8">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p>
-        {/* {buttons.slice(2).map((i, id) => {
-          return (
-            <>
-              <div
-                key={id}
-                className="w-12 h-12 rounded-full bg-gray-300 mb-2"
+          <Draggable
+            position={{ x: 0, y: 0 }}
+            defaultPosition={{ x: 0, y: 0 }}
+            onStop={(e, d) => console.log("d", d)}
+          >
+            <div className="mt-4">
+              <img
+                className="mx-auto no-user-drag cursor-grab hover:cursor-grabbing"
+                src={arati}
+                height={170}
+                width={170}
+                alt="arati"
               />
-              <h2 className="text-black mb-2 font-normal">{i.title}</h2>
-              <p className="text-gray-700 leading-normal mb-8">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </p>
-            </>
-          );
-        })} */}
-      </div>
-    </section>
+            </div>
+          </Draggable>
+
+          <div
+            onClick={() => togglePlay()}
+            // key={id}
+            onKeyDown={(e) => handleKeyDown(e)}
+            className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg :hover cursor-pointer"
+          >
+            start
+          </div>
+        </div>
+        <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
+          <div
+            // key={id}
+            className="w-12 h-12 rounded-full bg-gray-300 mb-2"
+          />
+          <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
+          <p className="text-gray-700 leading-normal mb-8">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry.
+          </p>
+          {/* {buttons.slice(2).map((i, id) => {
+      return (
+        <>
+          <div
+            key={id}
+            className="w-12 h-12 rounded-full bg-gray-300 mb-2"
+          />
+          <h2 className="text-black mb-2 font-normal">{i.title}</h2>
+          <p className="text-gray-700 leading-normal mb-8">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry.
+          </p>
+        </>
+      );
+    })} */}
+        </div>
+      </section>
+    </>
   );
 }
 
