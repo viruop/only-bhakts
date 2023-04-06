@@ -127,7 +127,7 @@ function App() {
             <img
               className="mt-20 shadow-2xl"
               loading="lazy"
-              // src={currentData.image}
+              src={currentData.image}
               alt=""
             />
           </div>
