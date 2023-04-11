@@ -11,7 +11,7 @@ import "./App.css";
 import Draggable from "react-draggable";
 import krishnaAudio from "./assets/audio/krishna.mp3";
 import jaikali from "./assets/audio/jaimaakali.mp3";
-import hanumanChalisa from "./assets/audio/hanumanchalisa.mp3";
+import hanumanChalisa from "./assets/audio/hanumanchalisa1.mp3";
 import namonamo from "./assets/audio/namonamo.mp3";
 import narayan from "./assets/audio/narayan.mp3";
 import suryadev from "./assets/audio/suryadev.mp3";
@@ -19,6 +19,7 @@ import flower from "./assets/flower.png";
 import bell from "./assets/bell.png";
 import pauseimage from "./assets/pause.png";
 import play from "./assets/play.png";
+import bellAudio from "./assets/audio/bell.mp3";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -44,15 +45,7 @@ function App() {
     document.title = currentData.title;
   }, [currentData.title, currentData.image, currentData.audio]);
 
-  const buttons = [
-    { title: "ghanti" },
-    { title: "parsad" },
-    // { title: "agarbatti" },
-    // { title: "phull" },
-    // { title: "diya" },
-    // { title: "tilak" },
-  ];
-  let audio: any;
+  let audio: HTMLAudioElement | undefined;
   let currentTime = 0;
   let id = "abc";
 
@@ -60,29 +53,23 @@ function App() {
     console.log("pause", audio);
     if (audio && !audio.paused) {
       currentTime = audio.currentTime;
-      await audio.pause();
-      // setPause(play);
+      audio.pause();
       toast.success("paused ...", {
         position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 2000,
+        autoClose: 1000,
         toastId: id,
-        // isLoading: true,
       });
+      // setPause(play);
     } else {
       audio = new Audio(currentData.audio);
       audio.currentTime = currentTime;
       await audio.play();
-      // setPause(pauseimage);
-      // toast.success("Message send successfully !", {
-      //   position: toast.POSITION.TOP_CENTER,
-      //   autoClose: 3000,
-      // });
       toast.success("playing ...", {
         position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 2000,
+        autoClose: 1000,
         toastId: id,
-        // isLoading: true,
       });
+      // setPause(pauseimage);
     }
   };
 
@@ -106,35 +93,34 @@ function App() {
     abcDiv.appendChild(drop);
   };
 
+  const playBell = () => {
+    let _audio = new Audio(bellAudio);
+    _audio?.play();
+  };
+
   return (
     <>
-      <div className="flex lg:hidden">under development</div>
-      <section className=" hidden lg:flex font-sans h-screen  bg-primary  container  m-auto  flex-col lg:flex-row justify-center ">
+      {/* <div className="flex lg:hidden">under development</div> */}
+      <section className="flex font-sans h-screen  bg-primary  container  m-auto  flex-row justify-center ">
         <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
-          {/* {buttons.map((i, id) => {
-      return (
-        <> */}
           <ToastContainer style={{ padding: "10px" }} />
           <div
             onClick={() => {
               const interval = setInterval(generateDrops, 100);
               setTimeout(() => clearInterval(interval), 2000);
             }}
-            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer p-3"
+            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             {" "}
             <img src={flower} alt="flower png" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
           <p className="text-gray-700 leading-normal mb-8">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
+            Flowers represents beauty, purity and devotion, symbolizing
+            spiritual enlightenment.
           </p>
-          {/* </>
-      );
-    })} */}
         </div>
-        <div className="order-2 mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center mt-12 ">
+        <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
           <div className="abc">
             <img
               className="mt-20 shadow-2xl"
@@ -161,41 +147,24 @@ function App() {
 
           <button
             onClick={() => togglePlay()}
-            // key={id}
             onKeyDown={(e) => handleKeyDown(e)}
             className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
-            start
-            {/* <img src={pause} alt="" /> */}
+            <img src={pause} alt="" />
           </button>
         </div>
         <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
           <div
-            // key={id}
-            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer p-3"
+            onClick={() => playBell()}
+            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={bell} alt="" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
           <p className="text-gray-700 leading-normal mb-8">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
+            Bells are believed to ward off evil spirits and help focus the mind
+            on the divine.
           </p>
-          {/* {buttons.slice(2).map((i, id) => {
-      return (
-        <>
-          <div
-            key={id}
-            className="w-12 h-12 rounded-full bg-gray-300 mb-2"
-          />
-          <h2 className="text-black mb-2 font-normal">{i.title}</h2>
-          <p className="text-gray-700 leading-normal mb-8">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
-          </p>
-        </>
-      );
-    })} */}
         </div>
       </section>
     </>

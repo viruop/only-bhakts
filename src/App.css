@@ -29,6 +29,9 @@
     transform: translateY(101vh);
   }
 }
+body {
+  background: #fbe7c6;
+}
 /* body {
   background: linear-gradient(270deg, #f1d279, #ffc066);
   background-size: 400% 400%;
