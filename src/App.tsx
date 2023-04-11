@@ -15,10 +15,15 @@ import hanumanChalisa from "./assets/audio/hanumanchalisa.mp3";
 import namonamo from "./assets/audio/namonamo.mp3";
 import narayan from "./assets/audio/narayan.mp3";
 import suryadev from "./assets/audio/suryadev.mp3";
+import flower from "./assets/flower.png";
+import bell from "./assets/bell.png";
+import pauseimage from "./assets/pause.png";
+import play from "./assets/play.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [pause, setPause] = useState(play);
   const [currentData, setCurrentData] = useState({
     title: "",
     image: "",
@@ -50,10 +55,13 @@ function App() {
   let audio: any;
   let currentTime = 0;
   let id = "abc";
+
   const togglePlay = async () => {
+    console.log("pause", audio);
     if (audio && !audio.paused) {
       currentTime = audio.currentTime;
-      audio.pause();
+      await audio.pause();
+      // setPause(play);
       toast.success("paused ...", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 2000,
@@ -64,6 +72,7 @@ function App() {
       audio = new Audio(currentData.audio);
       audio.currentTime = currentTime;
       await audio.play();
+      // setPause(pauseimage);
       // toast.success("Message send successfully !", {
       //   position: toast.POSITION.TOP_CENTER,
       //   autoClose: 3000,
@@ -77,7 +86,7 @@ function App() {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.code === "Space") {
       if (audio && !audio.paused) {
         audio.pause();
@@ -100,7 +109,7 @@ function App() {
   return (
     <>
       <div className="flex lg:hidden">under development</div>
-      <section className=" hidden lg:flex font-sans h-screen   container  m-auto  flex-col lg:flex-row justify-center ">
+      <section className=" hidden lg:flex font-sans h-screen  bg-primary  container  m-auto  flex-col lg:flex-row justify-center ">
         <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
           {/* {buttons.map((i, id) => {
       return (
@@ -111,8 +120,11 @@ function App() {
               const interval = setInterval(generateDrops, 100);
               setTimeout(() => clearInterval(interval), 2000);
             }}
-            className="w-12 h-12 rounded-full bg-gray-300 mb-2 hover:cursor-pointer"
-          />
+            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer p-3"
+          >
+            {" "}
+            <img src={flower} alt="flower png" />
+          </div>
           <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
           <p className="text-gray-700 leading-normal mb-8">
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -147,20 +159,23 @@ function App() {
             </div>
           </Draggable>
 
-          <div
+          <button
             onClick={() => togglePlay()}
             // key={id}
             onKeyDown={(e) => handleKeyDown(e)}
-            className="flex mx-auto  text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg :hover cursor-pointer"
+            className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
             start
-          </div>
+            {/* <img src={pause} alt="" /> */}
+          </button>
         </div>
         <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
           <div
             // key={id}
-            className="w-12 h-12 rounded-full bg-gray-300 mb-2"
-          />
+            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer p-3"
+          >
+            <img src={bell} alt="" />
+          </div>
           <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
           <p className="text-gray-700 leading-normal mb-8">
             Lorem Ipsum is simply dummy text of the printing and typesetting
