@@ -111,7 +111,7 @@ function App() {
   return (
     <>
       {/* <div className="flex lg:hidden">under development</div> */}
-      <section className="flex font-sans h-screen lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+      <section className="flex font-sans h-[95vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
           <div
             onClick={() => {
@@ -123,21 +123,21 @@ function App() {
             {" "}
             <img src={flower} alt="flower png" />
           </div>
-          <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
+          <h2 className="text-black mb-2 font-normal">{"Flower"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Flowers represents beauty, purity and devotion, symbolizing
             spiritual enlightenment.
           </p>
         </div>
         <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
-          {/* <div className="abc"> */}
-          <img
-            className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
-            loading="lazy"
-            src={currentData.image}
-            alt=""
-          />
-          {/* </div> */}
+          <div className="abc">
+            <img
+              className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
+              loading="lazy"
+              src={currentData.image}
+              alt=""
+            />
+          </div>
           <Draggable
             position={{ x: 0, y: 0 }}
             defaultPosition={{ x: 0, y: 0 }}
@@ -169,7 +169,7 @@ function App() {
           >
             <img src={bell} alt="" />
           </div>
-          <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
+          <h2 className="text-black mb-2 font-normal">{"Ghanti"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Bells are believed to ward off evil spirits and help focus the mind
             on the divine.
