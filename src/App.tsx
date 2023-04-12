@@ -111,7 +111,7 @@ function App() {
   return (
     <>
       {/* <div className="flex lg:hidden">under development</div> */}
-      <section className="flex font-sans h-[95vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+      <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
           <div
             onClick={() => {
