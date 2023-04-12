@@ -58,6 +58,11 @@ function App() {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 1000,
         toastId: id,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
       });
       // setPause(play);
     } else {
@@ -68,6 +73,11 @@ function App() {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 1000,
         toastId: id,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
       });
       // setPause(pauseimage);
     }
@@ -101,34 +111,33 @@ function App() {
   return (
     <>
       {/* <div className="flex lg:hidden">under development</div> */}
-      <section className="flex font-sans h-screen  bg-primary  container  m-auto  flex-row justify-center ">
-        <div className="order-2 lg:order-1 w-full lg:w-1/4 flex flex-col items-center lg:items-end justify-center text-center lg:text-right ml-0 lg:ml-8 mt-8">
-          <ToastContainer style={{ padding: "10px" }} />
+      <section className="flex font-sans h-screen lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+        <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
           <div
             onClick={() => {
               const interval = setInterval(generateDrops, 100);
               setTimeout(() => clearInterval(interval), 2000);
             }}
-            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             {" "}
             <img src={flower} alt="flower png" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"flower"}</h2>
-          <p className="text-gray-700 leading-normal mb-8">
+          <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Flowers represents beauty, purity and devotion, symbolizing
             spiritual enlightenment.
           </p>
         </div>
         <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
-          <div className="abc">
-            <img
-              className="mt-20 shadow-2xl"
-              loading="lazy"
-              src={currentData.image}
-              alt=""
-            />
-          </div>
+          {/* <div className="abc"> */}
+          <img
+            className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
+            loading="lazy"
+            src={currentData.image}
+            alt=""
+          />
+          {/* </div> */}
           <Draggable
             position={{ x: 0, y: 0 }}
             defaultPosition={{ x: 0, y: 0 }}
@@ -153,20 +162,21 @@ function App() {
             <img src={pause} alt="" />
           </button>
         </div>
-        <div className="order-last w-full lg:w-1/4 flex flex-col items-center lg:items-start justify-center text-center lg:text-left mt-8 mr-8">
+        <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
           <div
             onClick={() => playBell()}
-            className="w-20 h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={bell} alt="" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"ghanti"}</h2>
-          <p className="text-gray-700 leading-normal mb-8">
+          <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Bells are believed to ward off evil spirits and help focus the mind
             on the divine.
           </p>
         </div>
       </section>
+      <ToastContainer style={{ padding: "10px" }} />
     </>
   );
 }
