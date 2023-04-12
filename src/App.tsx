@@ -111,7 +111,7 @@ function App() {
   return (
     <>
       {/* <div className="flex lg:hidden">under development</div> */}
-      <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+      <section className="flex font-sans max-h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
           <div
             onClick={() => {
@@ -130,7 +130,7 @@ function App() {
           </p>
         </div>
         <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
-          <div className="abc p-2">
+          <div className="abc">
             <img
               className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
               loading="lazy"
