@@ -130,7 +130,7 @@ function App() {
           </p>
         </div>
         <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
-          <div className="abc">
+          <div className="abc p-2">
             <img
               className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
               loading="lazy"
