@@ -119,7 +119,7 @@ function App() {
             }}
             className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
-            <img src={flower} alt="flower png" />
+            <img src={flower} alt="flower-image" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"Flower"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
@@ -133,7 +133,7 @@ function App() {
               className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
               loading="lazy"
               src={currentData.image}
-              alt=""
+              alt="main-image"
             />
           </div>
           <Draggable
@@ -147,7 +147,7 @@ function App() {
                 src={arati}
                 height={170}
                 width={170}
-                alt="arati"
+                alt="arati-image"
               />
             </div>
           </Draggable>
@@ -157,7 +157,7 @@ function App() {
             onKeyDown={(e) => handleKeyDown(e)}
             className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
-            <img src={pause} alt="" />
+            <img src={pause} alt="pause-play-image" />
           </button>
         </div>
         <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
@@ -165,7 +165,7 @@ function App() {
             onClick={() => playBell()}
             className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
-            <img src={bell} alt="" />
+            <img src={bell} alt="bell-image" />
           </div>
           <h2 className="text-black mb-2 font-normal">{"Ghanti"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
