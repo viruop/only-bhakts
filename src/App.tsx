@@ -112,7 +112,7 @@ function App() {
     <>
       <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
-          <div
+          <button
             onClick={() => {
               const interval = setInterval(generateDrops, 100);
               setTimeout(() => clearInterval(interval), 2000);
@@ -120,7 +120,7 @@ function App() {
             className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={flower} alt="flower-image" />
-          </div>
+          </button>
           <h2 className="text-black mb-2 font-normal">{"Flower"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Flowers represents beauty, purity and devotion, symbolizing
@@ -161,12 +161,12 @@ function App() {
           </button>
         </div>
         <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
-          <div
+          <button
             onClick={() => playBell()}
             className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={bell} alt="bell-image" />
-          </div>
+          </button>
           <h2 className="text-black mb-2 font-normal">{"Ghanti"}</h2>
           <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Bells are believed to ward off evil spirits and help focus the mind
