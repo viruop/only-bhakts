@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import hanuman from "./assets/hanuman.png";
 import kali from "./assets/kali.png";
 import krishna from "./assets/krishna.png";
@@ -24,7 +24,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [pause, setPause] = useState(play);
   const [currentData, setCurrentData] = useState({
     title: "",
     image: "",
@@ -64,7 +63,8 @@ function App() {
         draggable: true,
         progress: undefined,
       });
-      // setPause(play);
+      var image = document.getElementById("myImage")!;
+      image.setAttribute("src", play);
     } else {
       audio = new Audio(currentData.audio);
       audio.currentTime = currentTime;
@@ -79,7 +79,8 @@ function App() {
         draggable: true,
         progress: undefined,
       });
-      // setPause(pauseimage);
+      var image = document.getElementById("myImage")!;
+      image.setAttribute("src", pauseimage);
     }
   };
 
@@ -157,7 +158,7 @@ function App() {
             onKeyDown={(e) => handleKeyDown(e)}
             className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
-            <img src={pause} alt="pause-play-image" />
+            <img id="myImage" src={play} alt="pause-play-image" />
           </button>
         </div>
         <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
