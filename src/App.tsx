@@ -44,7 +44,7 @@ function App() {
     document.title = currentData.title;
   }, [currentData.title, currentData.image, currentData.audio]);
 
-  let audio: HTMLAudioElement | undefined;
+  let audio: HTMLAudioElement;
   let currentTime = 0;
   let id = "abc";
 
@@ -53,7 +53,7 @@ function App() {
     if (audio && !audio.paused) {
       currentTime = audio.currentTime;
       audio.pause();
-      toast.success("paused ...", {
+      toast.success("Paused ...", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 1000,
         toastId: id,
@@ -69,7 +69,7 @@ function App() {
       audio = new Audio(currentData.audio);
       audio.currentTime = currentTime;
       await audio.play();
-      toast.success("playing ...", {
+      toast.success("Playing ...", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 1000,
         toastId: id,
@@ -81,14 +81,6 @@ function App() {
       });
       var image = document.getElementById("myImage")!;
       image.setAttribute("src", pauseimage);
-    }
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.code === "Space") {
-      if (audio && !audio.paused) {
-        audio.pause();
-      }
     }
   };
 
@@ -113,6 +105,7 @@ function App() {
     <>
       <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
+          <h1 className="sr-only">Only Bhakts</h1>
           <button
             onClick={() => {
               const interval = setInterval(generateDrops, 100);
@@ -155,7 +148,6 @@ function App() {
 
           <button
             onClick={() => togglePlay()}
-            onKeyDown={(e) => handleKeyDown(e)}
             className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
             <img id="myImage" src={play} alt="pause-play-image" />
