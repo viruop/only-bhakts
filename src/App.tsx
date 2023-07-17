@@ -30,6 +30,12 @@ function App() {
     audio: "",
   });
   useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.code === "Space") {
+        togglePlay();
+      }
+    };
+    window.addEventListener("keydown", (e) => handleKeyPress(e));
     const days = [
       { title: "Sunday", image: surya, audio: suryadev },
       { title: "Monday", image: shiva, audio: namonamo },
@@ -42,6 +48,9 @@ function App() {
     const dayOfWeek = days[new Date().getDay() + 0];
     setCurrentData(dayOfWeek);
     document.title = currentData.title;
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, [currentData.title, currentData.image, currentData.audio]);
 
   let audio: HTMLAudioElement;
