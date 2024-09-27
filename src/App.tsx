@@ -45,7 +45,7 @@ function App() {
       { title: "Friday", image: kali, audio: jaikali },
       { title: "Saturday", image: shani, audio: hanumanChalisa },
     ];
-    const dayOfWeek = days[new Date().getDay() - 1];
+    const dayOfWeek = days[new Date().getDay()];
     setCurrentData(dayOfWeek);
     document.title = currentData.title;
     return () => {
