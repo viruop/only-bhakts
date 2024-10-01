@@ -1,6 +1,4 @@
-import { SVGProps } from "react";
-import { JSX } from "react/jsx-runtime";
-import { useEffect, useState } from "react";
+import { SVGProps, useEffect, useState } from "react";
 import hanuman from "./assets/hanuman.png";
 import kali from "./assets/kali.png";
 import krishna from "./assets/krishna.png";
@@ -24,230 +22,142 @@ import play from "./assets/play.png";
 import bellAudio from "./assets/audio/bell.mp3";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAudioPlayer } from "react-use-audio-player";
 import { BackgroundLines } from "./components/ui/background-lines";
 import Ripple from "./components/ui/ripple";
 
-export default function App() {
-  const [currentData, setCurrentData] = useState({
-    title: "",
-    image: "",
-    audio: "",
-  });
+const days = [
+  { title: "Sunday", image: surya, audio: suryadev },
+  { title: "Monday", image: shiva, audio: namonamo },
+  { title: "Tuesday", image: hanuman, audio: hanumanChalisa },
+  { title: "Wednesday", image: krishna, audio: krishnaAudio },
+  { title: "Thursday", image: vishnu, audio: narayan },
+  { title: "Friday", image: kali, audio: jaikali },
+  { title: "Saturday", image: shani, audio: hanumanChalisa },
+];
+function App() {
+  const [currentData, setCurrentData] = useState(days[new Date().getDay()]);
+  const { togglePlayPause, playing, load, seek } = useAudioPlayer();
+
+  useEffect(() => {
+    document.title = currentData.title;
+    load(currentData.audio, {
+      autoplay: false,
+    });
+  }, [currentData, load]);
+
+  const handleTogglePlay = () => {
+    togglePlayPause();
+    const message = playing ? "Paused ..." : "Playing ...";
+    toast.success(message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 1000,
+      toastId: "playPauseToast",
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.code === "Space") {
-        togglePlay();
+        handleTogglePlay();
       }
     };
-    window.addEventListener("keydown", (e) => handleKeyPress(e));
-    const days = [
-      { title: "Sunday", image: surya, audio: suryadev },
-      { title: "Monday", image: shiva, audio: namonamo },
-      { title: "Tuesday", image: hanuman, audio: hanumanChalisa },
-      { title: "Wednesday", image: krishna, audio: krishnaAudio },
-      { title: "Thursday", image: vishnu, audio: narayan },
-      { title: "Friday", image: kali, audio: jaikali },
-      { title: "Saturday", image: shani, audio: hanumanChalisa },
-    ];
-    const dayOfWeek = days[new Date().getDay()];
-    setCurrentData(dayOfWeek);
-    document.title = currentData.title;
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [currentData.title, currentData.image, currentData.audio]);
-
-  let audio: HTMLAudioElement;
-  let currentTime = 0;
-  let id = "abc";
-
-  const togglePlay = async () => {
-    console.log("pause", audio);
-    if (audio && !audio.paused) {
-      currentTime = audio.currentTime;
-      audio.pause();
-      toast.success("Paused ...", {
-        position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 1000,
-        toastId: id,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
-      var image = document.getElementById("myImage")!;
-      image.setAttribute("src", play);
-    } else {
-      audio = new Audio(currentData.audio);
-      audio.currentTime = currentTime;
-      await audio.play();
-      toast.success("Playing ...", {
-        position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 1000,
-        toastId: id,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
-      var image = document.getElementById("myImage")!;
-      image.setAttribute("src", pauseimage);
-    }
-  };
-
-  const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
+  }, [handleTogglePlay]);
 
   const generateDrops = () => {
+    const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
     const drop = document.createElement("div");
     drop.classList.add("drop");
     drop.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     drop.style.left = Math.random() * 100 + "vw";
     drop.style.animationDuration = Math.random() * 2 + 1 + "s";
-    const abcDiv: any = document.querySelector(".abc");
-    abcDiv.appendChild(drop);
+    const abcDiv = document.querySelector(".abc");
+    abcDiv?.appendChild(drop);
   };
 
   const playBell = () => {
-    let _audio = new Audio(bellAudio);
-    _audio?.play();
+    const bellAudioPlayer = new Audio(bellAudio);
+    bellAudioPlayer.play();
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#FDEBD0]">
-      <div className="flex items-center justify-center w-full max-w-5xl px-4 py-8 mx-auto space-x-8">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="flex items-center justify-center w-16 h-16 bg-[#00BCD4] rounded-full">
-            <FlowerIcon className="w-8 h-8 text-white" />
-          </div>
-          <h3 className="text-lg font-semibold">Flower</h3>
-          <p className="text-center text-sm">
-            Flowers represent beauty, purity and devotion, symbolizing spiritual
-            enlightenment.
+    <>
+      <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+        <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
+          <h1 className="sr-only">Only Bhakts</h1>
+          <button
+            onClick={() => {
+              const interval = setInterval(generateDrops, 100);
+              setTimeout(() => clearInterval(interval), 2000);
+            }}
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A0E7E5] mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+          >
+            <img src={flower} alt="flower-image" />
+          </button>
+          <h2 className="text-black mb-2 font-normal">{"Flower"}</h2>
+          <p className="hidden md:block text-gray-700 leading-normal mb-8">
+            Flowers represents beauty, purity and devotion, symbolizing
+            spiritual enlightenment.
           </p>
         </div>
-        <BackgroundLines className="flex items-center  justify-center w-full flex-col">
-          <img
-            src={currentData.image}
-            alt="Divine Image"
-            className="object-cover w-[300px] h-[400px] z-10 rounded-lg shadow-lg"
-            width="300"
-            height="400"
-            style={{ aspectRatio: "300/400", objectFit: "cover" }}
-          />
-        </BackgroundLines>
-        {/* <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg  ">
-          <img
-            src={currentData.image}
-            alt="Divine Image"
-            className="object-cover w-[300px] h-[400px] z-10 rounded-lg shadow-lg"
-            width="300"
-            height="400"
-            style={{ aspectRatio: "300/400", objectFit: "cover" }}
-          />
-          <Ripple />
-        </div> */}
-        <div className="flex flex-col items-center space-y-4">
-          <div className="flex items-center justify-center w-16 h-16 bg-[#00BCD4] rounded-full">
-            <BellIcon className="w-8 h-8 text-white" />
+        <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
+          <div className="abc">
+            <img
+              className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
+              loading="lazy"
+              src={currentData.image}
+              alt="main-image"
+            />
           </div>
-          <h3 className="text-lg font-semibold">Ghanti</h3>
-          <p className="text-center text-sm">
+          <Draggable
+            position={{ x: 0, y: 0 }}
+            defaultPosition={{ x: 0, y: 0 }}
+            onStop={(e, d) => console.log("d", d)}
+          >
+            <div className="mt-4">
+              <img
+                className="mx-auto no-user-drag cursor-grab hover:cursor-grabbing"
+                src={arati}
+                height={170}
+                width={170}
+                alt="arati-image"
+              />
+            </div>
+          </Draggable>
+
+          <button
+            onClick={() => handleTogglePlay()}
+            className="flex mx-auto bg-[#A0E7E5] h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
+          >
+            <img src={playing ? pauseimage : play} alt="pause-play-image" />
+          </button>
+        </div>
+        <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
+          <button
+            onClick={() => playBell()}
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A0E7E5] mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+          >
+            <img src={bell} alt="bell-image" />
+          </button>
+          <h2 className="text-black mb-2 font-normal">{"Ghanti"}</h2>
+          <p className="hidden md:block text-gray-700 leading-normal mb-8">
             Bells are believed to ward off evil spirits and help focus the mind
             on the divine.
           </p>
         </div>
-      </div>
-      <div className="relative w-full mt-8">
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center">
-          <div className="relative flex items-center justify-center w-16 h-16 bg-[#00BCD4] rounded-full">
-            <PlayIcon className="w-8 h-8 text-white" />
-          </div>
-        </div>
-        <Draggable
-          position={{ x: 0, y: 0 }}
-          defaultPosition={{ x: 0, y: 0 }}
-          onStop={(e, d) => console.log("d", d)}
-        >
-          <div className="mt-4">
-            <img
-              className="mx-auto no-user-drag cursor-grab hover:cursor-grabbing"
-              src={arati}
-              height={170}
-              width={170}
-              alt="arati-image"
-            />
-          </div>
-        </Draggable>
-      </div>
-    </div>
+      </section>
+      <ToastContainer style={{ padding: "10px" }} />
+    </>
   );
 }
 
-function BellIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-    </svg>
-  );
-}
-
-function FlowerIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5" />
-      <path d="M12 7.5V9" />
-      <path d="M7.5 12H9" />
-      <path d="M16.5 12H15" />
-      <path d="M12 16.5V15" />
-      <path d="m8 8 1.88 1.88" />
-      <path d="M14.12 9.88 16 8" />
-      <path d="m8 16 1.88-1.88" />
-      <path d="M14.12 14.12 16 16" />
-    </svg>
-  );
-}
-
-function PlayIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="6 3 20 12 6 21 6 3" />
-    </svg>
-  );
-}
+export default App;
