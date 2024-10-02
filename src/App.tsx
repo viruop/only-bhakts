@@ -21,7 +21,6 @@ import pauseimage from "./assets/pause.png";
 import play from "./assets/play.png";
 import bellAudio from "./assets/audio/bell.mp3";
 import { toast } from "sonner";
-import "react-toastify/dist/ReactToastify.css";
 import { useAudioPlayer } from "react-use-audio-player";
 import { BackgroundLines } from "./components/ui/background-lines";
 import Ripple from "./components/ui/ripple";
