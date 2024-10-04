@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import hanuman from "./assets/hanuman.png";
 import kali from "./assets/kali.png";
 import krishna from "./assets/krishna.png";
@@ -20,99 +20,116 @@ import bell from "./assets/bell.png";
 import pauseimage from "./assets/pause.png";
 import play from "./assets/play.png";
 import bellAudio from "./assets/audio/bell.mp3";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
+import { useAudioPlayer } from "react-use-audio-player";
+import { BackgroundLines } from "./components/ui/background-lines";
+import Ripple from "./components/ui/ripple";
+import WavesBackground from "./components/WavesBackground";
+
+const days = [
+  { title: "Sunday", image: surya, audio: suryadev },
+  { title: "Monday", image: shiva, audio: namonamo },
+  { title: "Tuesday", image: hanuman, audio: hanumanChalisa },
+  { title: "Wednesday", image: krishna, audio: krishnaAudio },
+  { title: "Thursday", image: vishnu, audio: narayan },
+  { title: "Friday", image: kali, audio: jaikali },
+  { title: "Saturday", image: shani, audio: hanumanChalisa },
+];
+
+type ColorShades = [string, string, string, string, string, string];
+
+const navratriColors: { [key: string]: ColorShades } = {
+  Pratipada: ["#fefce8", "#fffacd", "#ffef88", "#ffdf44", "#feca11", "#eeb104"], // Yellow shades
+  Dwitiya: ["#ecfdf5", "#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399", "#10b981"], // Green shades
+  Tritiya: ["#fafafa", "#f5f5f5", "#e5e5e5", "#d4d4d4", "#a3a3a3", "#737373"], // Grey shades
+  Chaturthi: ["#fff7ed", "#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316"], // Orange shades
+  Panchami: ["#fafaf9", "#f5f5f4", "#e7e5e4", "#d6d3d1", "#a8a29e", "#78716c"], // White shades
+  Shashti: ["#fef2f2", "#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444"], // Red shades
+  Saptami: ["#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"], // Royal Blue shades
+  Ashtami: ["#fff1f2", "#ffe4e6", "#fecdd3", "#fda4af", "#fb7185", "#f43f5e"], // Pink shades
+  Navami: ["#faf5ff", "#f3e8ff", "#e9d5ff", "#d8b4fe", "#c084fc", "#a855f7"], // Purple shades
+};
+
+const navratriDays: string[] = [
+  "Pratipada",
+  "Dwitiya",
+  "Tritiya",
+  "Chaturthi",
+  "Panchami",
+  "Shashti",
+  "Saptami",
+  "Ashtami",
+  "Navami",
+];
+
+function getNavratriColors(): ColorShades {
+  const today = new Date();
+  const navratriStart = new Date(2024, 9, 3); // October 3, 2024
+  const navratriEnd = new Date(2024, 9, 11); // October 11, 2024 (9 days)
+
+  if (today >= navratriStart && today <= navratriEnd) {
+    const dayOfNavratri = Math.floor(
+      (today.getTime() - navratriStart.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    const navratriDay = navratriDays[dayOfNavratri];
+    return navratriColors[navratriDay];
+  } else {
+    // Default colors for non-Navratri days
+    return ["#fbe7c6", "#f4c07d", "#e5a460", "#d58846", "#c66c2e", "#b64e18"];
+  }
+}
 
 function App() {
-  const [currentData, setCurrentData] = useState({
-    title: "",
-    image: "",
-    audio: "",
-  });
+  const currentData = days[new Date().getDay()];
+  const { togglePlayPause, playing, load } = useAudioPlayer();
+
+  useEffect(() => {
+    document.title = currentData.title;
+    load(currentData.audio, {
+      autoplay: false,
+    });
+  }, [currentData, load]);
+
+  const navratriColors = getNavratriColors();
+
+  const handleTogglePlay = () => {
+    togglePlayPause();
+    const message = playing ? "Paused ..." : "Playing ...";
+    toast.success(message);
+  };
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.code === "Space") {
-        togglePlay();
+        handleTogglePlay();
       }
     };
-    window.addEventListener("keydown", (e) => handleKeyPress(e));
-    const days = [
-      { title: "Sunday", image: surya, audio: suryadev },
-      { title: "Monday", image: shiva, audio: namonamo },
-      { title: "Tuesday", image: hanuman, audio: hanumanChalisa },
-      { title: "Wednesday", image: krishna, audio: krishnaAudio },
-      { title: "Thursday", image: vishnu, audio: narayan },
-      { title: "Friday", image: kali, audio: jaikali },
-      { title: "Saturday", image: shani, audio: hanumanChalisa },
-    ];
-    const dayOfWeek = days[new Date().getDay()];
-    setCurrentData(dayOfWeek);
-    document.title = currentData.title;
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [currentData.title, currentData.image, currentData.audio]);
-
-  let audio: HTMLAudioElement;
-  let currentTime = 0;
-  let id = "abc";
-
-  const togglePlay = async () => {
-    console.log("pause", audio);
-    if (audio && !audio.paused) {
-      currentTime = audio.currentTime;
-      audio.pause();
-      toast.success("Paused ...", {
-        position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 1000,
-        toastId: id,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
-      var image = document.getElementById("myImage")!;
-      image.setAttribute("src", play);
-    } else {
-      audio = new Audio(currentData.audio);
-      audio.currentTime = currentTime;
-      await audio.play();
-      toast.success("Playing ...", {
-        position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 1000,
-        toastId: id,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
-      var image = document.getElementById("myImage")!;
-      image.setAttribute("src", pauseimage);
-    }
-  };
-
-  const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
+  }, [handleTogglePlay]);
 
   const generateDrops = () => {
+    const emojis = ["🌼", "🌺", "🏵️", "🌷", "💮"];
     const drop = document.createElement("div");
     drop.classList.add("drop");
     drop.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     drop.style.left = Math.random() * 100 + "vw";
     drop.style.animationDuration = Math.random() * 2 + 1 + "s";
-    const abcDiv: any = document.querySelector(".abc");
-    abcDiv.appendChild(drop);
+    const abcDiv = document.querySelector(".abc");
+    abcDiv?.appendChild(drop);
   };
 
   const playBell = () => {
-    let _audio = new Audio(bellAudio);
-    _audio?.play();
+    const bellAudioPlayer = new Audio(bellAudio);
+    bellAudioPlayer.play();
   };
 
   return (
-    <>
-      <section className="flex font-sans h-[90vh] lg:h-[90vh]  container  m-auto  flex-row justify-center hero-image">
+    <div>
+      <WavesBackground colors={navratriColors} />
+      <section className="flex font-sans h-[90vh] lg:h-[90vh] container m-auto flex-row justify-center hero-image">
         <div className="order-2 lg:order-1 w-1/5 lg:w-1/4 flex flex-col items-center lg:items-end justify-end md:justify-center text-center lg:text-right ml-0 md:ml-8 md:mt-8 ">
           <h1 className="sr-only">Only Bhakts</h1>
           <button
@@ -120,7 +137,7 @@ function App() {
               const interval = setInterval(generateDrops, 100);
               setTimeout(() => clearInterval(interval), 2000);
             }}
-            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A0E7E5] mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={flower} alt="flower-image" />
           </button>
@@ -130,7 +147,7 @@ function App() {
             spiritual enlightenment.
           </p>
         </div>
-        <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center  justify-center text-center lg:mt-12 ">
+        <div className="order-2 lg:mx-14 lg:order-2 w-full lg:w-1/4 flex flex-col items-center justify-center text-center lg:mt-12 ">
           <div className="abc">
             <img
               className="md:mt-20 h-[550px] md:h-auto shadow-2xl"
@@ -156,16 +173,16 @@ function App() {
           </Draggable>
 
           <button
-            onClick={() => togglePlay()}
-            className="flex mx-auto bg-secondary h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
+            onClick={() => handleTogglePlay()}
+            className="flex mx-auto bg-[#A0E7E5] h-12 w-12 border-0 p-2 focus:outline-none hover:bg-[#4be4bd] rounded-full text-lg :hover cursor-pointer"
           >
-            <img id="myImage" src={play} alt="pause-play-image" />
+            <img src={playing ? pauseimage : play} alt="pause-play-image" />
           </button>
         </div>
         <div className="order-last w-1/5 lg:w-1/4 flex flex-col items-center lg:items-start justify-end md:justify-center text-center lg:text-left md:mt-8 md:mr-8">
           <button
             onClick={() => playBell()}
-            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-secondary mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#A0E7E5] mb-2 hover:cursor-pointer hover:bg-[#4be4bd] p-3"
           >
             <img src={bell} alt="bell-image" />
           </button>
@@ -176,8 +193,7 @@ function App() {
           </p>
         </div>
       </section>
-      <ToastContainer style={{ padding: "10px" }} />
-    </>
+    </div>
   );
 }
 

@@ -1,10 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { Toaster } from "./components/ui/sonner";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <>
     <App />
-  </React.StrictMode>,
-)
+    <Toaster
+      theme="light"
+      position="top-center"
+      richColors
+      toastOptions={{
+        duration: 1500,
+      }}
+    />
+  </>
+);
