@@ -100,8 +100,24 @@ function App() {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
-        handleTogglePlay();
+      switch (
+        event.key.toLowerCase() // Convert the key to lowercase for consistent comparison
+      ) {
+        case " ": // Space key
+          handleTogglePlay();
+          break;
+        case "b":
+          playBell(); // Execute playBell function when 'B' or 'b' is pressed
+          break;
+        case "g":
+          playBell(); // Execute playBell function when 'G' or 'g' is pressed
+          break;
+        case "f":
+          const interval = setInterval(generateDrops, 100);
+          setTimeout(() => clearInterval(interval), 2000); // Execute generateDrops function when 'F' or 'f' is pressed
+          break;
+        default:
+          break;
       }
     };
     window.addEventListener("keydown", handleKeyPress);
